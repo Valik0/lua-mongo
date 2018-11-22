@@ -53,6 +53,7 @@
 #define TYPE_MINKEY "mongo.MinKey"
 #define TYPE_NULL "mongo.Null"
 #define TYPE_OBJECTID "mongo.ObjectID"
+#define TYPE_POOL "mongo.Pool"
 #define TYPE_READPREFS "mongo.ReadPrefs"
 #define TYPE_REGEX "mongo.Regex"
 #define TYPE_TIMESTAMP "mongo.Timestamp"
@@ -79,6 +80,7 @@ void pushBSONWithSteal(lua_State *L, bson_t *bson);
 void pushBSONValue(lua_State *L, const bson_value_t *val);
 void pushBSONField(lua_State *L, const bson_t *bson, const char *key, bool any);
 void pushBulkOperation(lua_State *L, mongoc_bulk_operation_t *bulk, int pidx);
+void pushClientFromPool(lua_State *L, mongoc_client_t *client, int pidx);
 void pushCollection(lua_State *L, mongoc_collection_t *collection, bool ref, int pidx);
 void pushCursor(lua_State *L, mongoc_cursor_t *cursor, int pidx);
 void pushDatabase(lua_State *L, mongoc_database_t *database, int pidx);
@@ -111,6 +113,7 @@ mongoc_database_t *checkDatabase(lua_State *L, int idx);
 mongoc_gridfs_t *checkGridFS(lua_State *L, int idx);
 mongoc_gridfs_file_t *checkGridFSFile(lua_State *L, int idx);
 mongoc_gridfs_file_list_t *checkGridFSFileList(lua_State *L, int idx);
+mongoc_client_pool_t *checkPool(lua_State *L, int idx);
 mongoc_read_prefs_t *checkReadPrefs(lua_State *L, int idx);
 mongoc_read_prefs_t *toReadPrefs(lua_State *L, int idx);
 

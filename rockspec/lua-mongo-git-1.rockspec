@@ -39,6 +39,7 @@ build = {
 				'src/gridfsfilelist.c',
 				'src/main.c',
 				'src/objectid.c',
+				'src/pool.c',
 				'src/readprefs.c',
 				'src/util.c',
 			},

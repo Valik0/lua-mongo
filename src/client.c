@@ -93,6 +93,11 @@ static int m__gc(lua_State *L) {
 	return 0;
 }
 
+static int m__noGC(lua_State *L) {
+	unsetType(L);
+	return 0;
+}
+
 static const luaL_Reg funcs[] = {
 	{"command", m_command},
 	{"getCollection", m_getCollection},
@@ -106,12 +111,30 @@ static const luaL_Reg funcs[] = {
 	{0, 0}
 };
 
+static const luaL_Reg funcs2[] = {
+	{"command", m_command},
+	{"getCollection", m_getCollection},
+	{"getDatabase", m_getDatabase},
+	{"getDatabaseNames", m_getDatabaseNames},
+	{"getDefaultDatabase", m_getDefaultDatabase},
+	{"getGridFS", m_getGridFS},
+	{"getReadPrefs", m_getReadPrefs},
+	{"setReadPrefs", m_setReadPrefs},
+	{"__gc", m__noGC},
+	{0, 0}
+};
+
 int newClient(lua_State *L) {
 	mongoc_client_t *client = mongoc_client_new(luaL_checkstring(L, 1));
 	luaL_argcheck(L, client, 1, "invalid format");
 	pushHandle(L, client, 0, 0);
 	setType(L, TYPE_CLIENT, funcs);
 	return 1;
+}
+
+void pushClientFromPool(lua_State *L, mongoc_client_t *client, int pidx) {
+	pushHandle(L, client, 0, pidx);
+	setType(L, TYPE_CLIENT, funcs2);
 }
 
 mongoc_client_t *checkClient(lua_State *L, int idx) {
