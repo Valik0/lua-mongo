@@ -37,6 +37,8 @@ static int m_pushClient(lua_State *L) {
 
 static int m__poolGC(lua_State *L) {
 	mongoc_client_pool_destroy(checkPool(L, 1));
+//TODO: fix this
+//	mongoc_uri_destroy(checkPool(L, 2));
 	unsetType(L);
 	return 0;
 }
@@ -49,13 +51,23 @@ static const luaL_Reg poolFuncs[] = {
 };
 
 int newPool(lua_State *L) {
-	mongoc_client_pool_t *pool = mongoc_client_pool_new(luaL_checkstring(L, 1));
+	mongoc_uri_t *uri;
+	uri = mongoc_uri_new(luaL_checkstring(L, 1));
+	mongoc_client_pool_t *pool = mongoc_client_pool_new(uri);
+	mongoc_client_pool_set_error_api (pool, 2);
 	luaL_argcheck(L, pool, 1, "invalid format");
 	pushHandle(L, pool, 0, 0);
 	setType(L, TYPE_POOL, poolFuncs);
+//TODO: fix this
+//	pushHandle(L, uri, 0, 1);
+//	setType(L, TYPE_URI, NULL);
 	return 1;
 }
 
 mongoc_client_pool_t *checkPool(lua_State *L, int idx) {
 	return *(mongoc_client_pool_t **)luaL_checkudata(L, idx, TYPE_POOL);
+}
+
+mongoc_uri_t *checkUri(lua_State *L, int idx) {
+	return *(mongoc_uri_t **)luaL_checkudata(L, idx, TYPE_URI);
 }

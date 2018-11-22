@@ -57,6 +57,7 @@
 #define TYPE_READPREFS "mongo.ReadPrefs"
 #define TYPE_REGEX "mongo.Regex"
 #define TYPE_TIMESTAMP "mongo.Timestamp"
+#define TYPE_URI "mongo.Uri"
 
 extern char NEW_BINARY, NEW_DATETIME, NEW_DECIMAL128, NEW_JAVASCRIPT, NEW_REGEX, NEW_TIMESTAMP;
 extern char GLOBAL_MAXKEY, GLOBAL_MINKEY, GLOBAL_NULL;
@@ -116,6 +117,7 @@ mongoc_gridfs_file_t *checkGridFSFile(lua_State *L, int idx);
 mongoc_gridfs_file_list_t *checkGridFSFileList(lua_State *L, int idx);
 mongoc_client_pool_t *checkPool(lua_State *L, int idx);
 mongoc_read_prefs_t *checkReadPrefs(lua_State *L, int idx);
+mongoc_uri_t *checkUri(lua_State *L, int idx);
 mongoc_read_prefs_t *toReadPrefs(lua_State *L, int idx);
 
 int toInsertFlags(lua_State *L, int idx);
